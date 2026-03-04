@@ -25,6 +25,7 @@
       status: "Al día",
       paidPercent: 25,
       nextDueDate: "10 mar 2026",
+      disbursedAt: new Date('2026-03-01'),
       payments: [
         { week: 1, date: "03 mar 2026", amount: 810.92, status: "Pagado",    isCurrent: false },
         { week: 2, date: "10 mar 2026", amount: 810.92, status: "Pendiente", isCurrent: true  },
@@ -145,7 +146,8 @@
 
     function LoanDashboard() {
       const [scheduleOpen, setScheduleOpen] = useState(false);
-      const { amount, capitalPaid, currency, lender, status, paidPercent, nextDueDate, payments } = LOAN;
+      const { amount, capitalPaid, currency, lender, status, paidPercent, nextDueDate, payments, disbursedAt } = LOAN;
+      const disbursedLabel = disbursedAt.toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' });
       const remainingCapital = (amount - capitalPaid).toLocaleString("es-MX", {
         minimumFractionDigits: 2, maximumFractionDigits: 2,
       });
@@ -161,10 +163,12 @@
 
             {/* ── 1. Credit Status Header ───────────────────────────────── */}
             <div className="bg-white rounded-2xl p-5" style={{ boxShadow: "0 4px 24px rgba(91,75,232,0.08)" }}>
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-2">
                 <StatusBadge status={status} />
                 <span className="text-xs text-gray-400 font-medium">{lender}</span>
               </div>
+
+              <p className="text-xs text-gray-400 mb-4">Capital acreditado en tu cuenta bancaria el {disbursedLabel}</p>
 
               <div className="flex items-baseline gap-2">
                 <span className="text-4xl font-extrabold text-gray-900 tracking-tight">
@@ -199,6 +203,10 @@
                   <span className="font-semibold text-gray-800">Próximo vencimiento:</span>{" "}
                   {nextDueDate}
                 </p>
+              </div>
+
+              <div className="mt-2 flex items-center gap-2 rounded-full px-3 py-2 self-start" style={{ backgroundColor: "#EEF0FF" }}>
+                <span className="text-xs text-indigo-700">💼 Los pagos se descuentan semanalmente de tu nómina</span>
               </div>
             </div>
 
