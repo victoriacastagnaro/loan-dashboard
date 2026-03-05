@@ -168,7 +168,7 @@
                 <span className="text-xs text-gray-400 font-medium">{lender}</span>
               </div>
 
-              <p className="text-xs text-gray-400 mb-4">Capital acreditado en tu cuenta bancaria el {disbursedLabel}</p>
+              <p className="text-xs text-gray-400 mb-4">${amount.toLocaleString('es-MX')} acreditados en tu cuenta bancaria el {disbursedLabel}</p>
 
               <div className="flex items-baseline gap-2">
                 <span className="text-4xl font-extrabold text-gray-900 tracking-tight">
@@ -176,7 +176,7 @@
                 </span>
                 <span className="text-base font-medium text-gray-400">{currency}</span>
               </div>
-              <p className="text-xs text-gray-400 mt-1">Capital restante</p>
+              <p className="text-xs text-gray-400 mt-1">Te queda por devolver</p>
 
               <div className="mt-4 h-1 w-16 rounded-full"
                 style={{ background: "linear-gradient(to right, #5B4BE8, #8B7FF5)" }} />
