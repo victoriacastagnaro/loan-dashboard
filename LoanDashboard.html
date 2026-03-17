@@ -21,7 +21,7 @@
       amount: 3000,
       capitalPaid: 714.96,
       currency: "MXN",
-      lender: "Humand Préstamos",
+      lender: "Adelanto de Sueldo",
       status: "Al día",
       paidPercent: 25,
       nextDueDate: "10 mar 2026",
@@ -149,6 +149,8 @@
       const remainingCapital = (amount - capitalPaid).toLocaleString("es-MX", {
         minimumFractionDigits: 2, maximumFractionDigits: 2,
       });
+      const paidCount = payments.filter(p => p.status === "Pagado").length;
+      const pendingCount = payments.length - paidCount;
       const pendingPercent = 100 - paidPercent;
       const total = payments.reduce((s, p) => s + p.amount, 0).toLocaleString("es-MX", {
         minimumFractionDigits: 2, maximumFractionDigits: 2,
@@ -183,10 +185,10 @@
               <div className="flex justify-between items-center mb-3">
                 <div className="flex items-center gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#5B4BE8" }} />
-                  <span className="text-sm font-semibold" style={{ color: "#5B4BE8" }}>Pagado: {paidPercent}%</span>
+                  <span className="text-sm font-semibold" style={{ color: "#5B4BE8" }}>{paidCount}/{payments.length} cuotas pagadas</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-sm text-gray-400">Pendiente: {pendingPercent}%</span>
+                  <span className="text-sm text-gray-400">Te faltan {pendingCount}</span>
                   <span className="w-2.5 h-2.5 rounded-full bg-gray-200" />
                 </div>
               </div>
@@ -196,7 +198,7 @@
               <div className="mt-4 flex items-center gap-2 rounded-xl px-3 py-2" style={{ backgroundColor: "#eef2ff" }}>
                 <CalendarIcon />
                 <p className="text-xs text-gray-600">
-                  <span className="font-semibold text-gray-800">Próximo vencimiento:</span>{" "}
+                  <span className="font-semibold text-gray-800">El próximo vencimiento de tu cuota es el</span>{" "}
                   {nextDueDate}
                 </p>
               </div>
@@ -226,10 +228,9 @@
                   <table className="w-full" style={{ fontSize: 12 }}>
                     <thead>
                       <tr className="bg-gray-50">
-                        <th className="text-left px-4 py-2.5 text-gray-500 font-semibold">Sem.</th>
-                        <th className="text-left px-4 py-2.5 text-gray-500 font-semibold">Fecha</th>
-                        <th className="text-right px-4 py-2.5 text-gray-500 font-semibold">Cuota total</th>
-                        <th className="text-center px-4 py-2.5 text-gray-500 font-semibold">Estado</th>
+                        <th className="text-left px-4 py-2.5 text-gray-500 font-semibold">Cuota</th>
+                        <th className="text-left px-4 py-2.5 text-gray-500 font-semibold">Fecha de pago</th>
+                        <th className="text-right px-4 py-2.5 text-gray-500 font-semibold">Monto</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -256,9 +257,6 @@
                           <td className="px-4 py-3 text-gray-600">{p.date}</td>
                           <td className="px-4 py-3 text-right font-semibold text-gray-800">
                             ${p.amount.toFixed(2)}
-                          </td>
-                          <td className="px-4 py-3 text-center">
-                            <PaymentStatus payment={p} />
                           </td>
                         </tr>
                       ))}
